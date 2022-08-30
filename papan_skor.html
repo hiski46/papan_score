@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/077e45162e.js" crossorigin="anonymous"></script>
+    <style>
+        .score{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 35vh;
+        }
+        .nama{
+            cursor: pointer;
+        }
+    </style>
+    <title>Papan Skor</title>
+</head>
+
+<body oncontextmenu="return false;">
+    <div class="container mt-2 " style="height: 20vh;">
+        <div class="row text-center">
+            <img class="rounded mx-auto d-block" src="https://quizizz.com/media/resource/gs/quizizz-media/quizzes/bc7c904e-1645-4597-aa8f-5a41fe011ad6?w=200&h=200" alt="" style="height: 10vh; width:auto;">
+            <h2>PERLOMBAAN PRA HUT </h2>
+            <h3>PERMATA GBKP Runggun Bandar Lampung</h3>
+        </div>
+        <div class="row mt-5 text-center " style="height: 5vh;" id="nama">
+            <div class="col-5 nama" id="nama1" >
+                <button class="btn btn-success btn-sm"><i class="fa-solid fa-check"></i></button>
+                <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="col-2">
+                <h2>vs</h2>
+            </div>
+            <div class="col-5 nama" id="nama2">
+                <h1>nama 2</h1>
+            </div>
+        </div>
+        <div class="row mt-1 border border-primary border-5 shadow-lg" style="height: 50vh;" id="papan" style="background-color: paleturquoise;">
+            <div class="col-6 text-center " >
+                <span class="score" id="score_1">0</span>
+            </div>
+            <div class="col-6 text-center " >
+                <span class="score" id="score_2">0</span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-5 text-center">
+                <button class="btn btn-success btn-lg" onclick="tambah(1)"><i class="fa-solid fa-plus"></i></button>
+                <button class="btn btn-danger btn-lg"  onclick="kurang(1)"><i class="fa-solid fa-minus"></i></button>
+            </div>
+            <div class="col text-center">
+                <button class="btn btn-primary btn-lg" onclick="reset()">Reset</i></button>
+            </div>
+            <div class="col-5 text-center">
+                <button class="btn btn-success btn-lg" onclick="tambah(2)"><i class="fa-solid fa-plus"></i></button>
+                <button class="btn btn-danger btn-lg" onclick="kurang(2)"><i class="fa-solid fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="row mt-4 border border-secondary">
+            <small>Klik kanan dalam kotak untuk tambah poin score kanan</small>
+            <small>Klik kiri dalam kotak untuk tambah poin score kiri</small>
+            <small>Tombol panah kanan untuk tambah poin score kanan</small>
+            <small>Tombol panah kiri untuk tambah poin score kiri</small>
+            <small>Double klik di nama untuk mengubah nama </small>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script>
+        nama_1 = 'Pasangan 1'
+        nama_2 = 'Pasangan 2'
+        score_1 = 0
+        score_2 = 0
+        $(document).ready(function(){
+            $('#nama1').html('<h1>'+nama_1+'</h1>')
+            $('#nama2').html('<h1>'+nama_2+'</h1>')
+            $('#score_1').text(score_1)
+            $('#score_2').text(score_2)
+            $('#nama1').dblclick(function () {
+                $('#nama1').html('<div class="row"><div class="col-8"><input class="form-control form-control-lg" id="set_nama_1" type="text" value="'+nama_1+'" aria-label=".form-control-lg example"></div> <div class="col-4 text-start mt-2"><button class="btn btn-success btn-sm" onclick="oke(1)"><i class="fa-solid fa-check"></i></button> <button class="btn btn-danger btn-sm" onclick="no(1)"><i class="fa-solid fa-xmark"></i></button></div></div>')
+            })
+            $('#nama2').dblclick(function () {
+                $('#nama2').html('<div class="row"><div class="col-8"><input class="form-control form-control-lg" id="set_nama_2" type="text" value="'+nama_2+'" aria-label=".form-control-lg example"></div> <div class="col-4 text-start mt-2"><button class="btn btn-success btn-sm" onclick="oke(2)"><i class="fa-solid fa-check"></i></button> <button class="btn btn-danger btn-sm" onclick="no(2)"><i class="fa-solid fa-xmark"></i></button></div></div>')
+            })
+            $('#papan').mousedown(function(e){
+                e.preventDefault()
+                if(e.which == 3){
+                    score_2++
+                    $('#score_2').text(score_2)
+                }else if(e.which == 1){
+                    score_1++
+                    $('#score_1').text(score_1)
+                }
+            })
+            $(document).keydown(function(e){
+                if (e.keyCode==37){
+                    score_1++
+                    $('#score_1').text(score_1)
+                }else if  (e.keyCode==39){   
+                    score_2++
+                    $('#score_2').text(score_2)
+                }
+            });
+        })
+        function reset() {
+            score_1 = 0
+            score_2 = 0
+            $('#score_1').text(score_1)
+            $('#score_2').text(score_2)
+        }
+        function oke(type) {
+            if (type==1) {
+                nama_1 = $('#set_nama_1').val()
+                $('#nama1').html('<h1>'+nama_1+'</h1>')
+            }else{
+                nama_2 = $('#set_nama_2').val()
+                $('#nama2').html('<h1>'+nama_2+'</h1>')
+
+            }
+        }
+
+        function no(type) {
+            if(type==1) {
+                $('#nama1').html('<h1>'+nama_1+'</h1>')
+            }else{
+                
+                $('#nama2').html('<h1>'+nama_2+'</h1>')
+            }
+        }
+
+        function tambah(type) {
+            if(type==1){
+                score_1++
+                $('#score_1').text(score_1)
+            }else if(type==2){
+                score_2++
+                $('#score_2').text(score_2)
+            }
+        }
+        function kurang(type) {
+            if(type==1){
+                if (score_1>0) {
+                    score_1--
+                }
+                $('#score_1').text(score_1)
+            }else if(type==2){
+                if (score_2>0) {
+                    score_2--
+                }
+                
+                $('#score_2').text(score_2)
+            }
+        }
+    </script>
+</body>
+
+</html>
